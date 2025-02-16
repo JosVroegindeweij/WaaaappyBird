@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmpu52l3qjsj1"]
+
+[ext_resource type="Texture2D" uid="uid://b35dqcmp661te" path="res://Game/world-background.jpg" id="1_o4pvh"]
+
+[node name="Main" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.997004, 0.997315)
+texture = ExtResource("1_o4pvh")
+expand_mode = 1
+stretch_mode = 6
