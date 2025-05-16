@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Player : CharacterBody2D
 {
@@ -28,7 +27,7 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		if (Input.IsActionPressed("jump"))
+		if (Input.IsActionJustPressed("jump"))
 		{
 			Jump();
 		}
@@ -47,5 +46,10 @@ public partial class Player : CharacterBody2D
 		_verticalAcceleration += fallingAcceleration;
 
 		Position += new Vector2(0, (float)_verticalAcceleration);
+	}
+
+	public void OnUnpaused()
+	{
+		_timeSinceStart = 0;
 	}
 }

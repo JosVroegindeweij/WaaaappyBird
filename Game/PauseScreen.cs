@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class PauseScreen : RichTextLabel
 {
@@ -13,8 +12,7 @@ public partial class PauseScreen : RichTextLabel
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		GD.Print("Pause pressed: " + Input.IsActionPressed("pause"));
-		if (Input.IsActionPressed("pause"))
+		if (Input.IsActionJustPressed("pause"))
 		{
 			// Pause the game
 			GD.Print("Pausing the game");
@@ -22,12 +20,16 @@ public partial class PauseScreen : RichTextLabel
 			Show();
 		}
 
-		if (GetTree().Paused && Input.IsActionPressed("unpause"))
+		if (GetTree().Paused && Input.IsActionJustPressed("unpause"))
 		{
 			// Unpause the game
 			GD.Print("Unpausing the game");
 			GetTree().SetDeferred("paused", false);
+			EmitSignal(SignalName.Unpaused);
 			Hide();
 		}
 	}
+
+	[Signal]
+	public delegate void UnpausedEventHandler();
 }
