@@ -8,9 +8,10 @@
 [sub_resource type="ImageTexture" id="ImageTexture_45gde"]
 
 [node name="Main" type="Node2D"]
-process_mode = 1
+process_mode = 3
 
 [node name="Game" type="Node2D" parent="."]
+process_mode = 1
 z_index = 1
 
 [node name="CharacterBody2D" parent="Game" instance=ExtResource("1_6ogx2")]
@@ -21,6 +22,7 @@ motion_mode = 1
 script = ExtResource("2_pbbcb")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 1
 layer = -1
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
@@ -42,13 +44,15 @@ scale = Vector2(0.563021, 0.686574)
 texture = ExtResource("2_ghcmh")
 
 [node name="Overlay" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Overlay"]
-process_mode = 2
 offset_left = 59.0
 offset_top = 180.0
 offset_right = 415.0
-offset_bottom = 295.0
+offset_bottom = 221.0
 theme_override_font_sizes/normal_font_size = 23
 text = "Press any key to start/continue"
 script = ExtResource("4_3whv8")
+
+[connection signal="Unpaused" from="Overlay/RichTextLabel" to="Game/CharacterBody2D" method="OnUnpaused"]
