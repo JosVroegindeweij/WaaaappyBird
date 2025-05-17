@@ -2,12 +2,10 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-	private const double TIME_BEFORE_START_FALLING = 1.5;
 	private const float GRAVITY = 9.8f;
 	private const double JUMP_VERTICAL_ACCELERATION = -2.5;
 
-	private double _timeSinceStart = 0;
-
+	private bool isInGracePeriod = false;
 	private double _verticalAcceleration = 0;
 
 	// Called when the node enters the scene tree for the first time.
@@ -19,9 +17,7 @@ public partial class Player : CharacterBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		_timeSinceStart += delta;
-
-		if (_timeSinceStart <= TIME_BEFORE_START_FALLING)
+		if (isInGracePeriod)
 		{
 			// Do nothing
 			return;
@@ -50,6 +46,23 @@ public partial class Player : CharacterBody2D
 
 	public void OnUnpaused()
 	{
-		_timeSinceStart = 0;
+		isInGracePeriod = true;
+		var timer = GetNode<Timer>("GracePeriodTimer");
+		timer.Start();
+
+		EmitSignal(SignalName.GracePeriodStarted);
 	}
+
+	public void OnGracePeriodEnded()
+	{
+		isInGracePeriod = false;
+
+		EmitSignal(SignalName.GracePeriodEnded);
+	}
+
+	[Signal]
+	public delegate void GracePeriodStartedEventHandler();
+
+	[Signal]
+	public delegate void GracePeriodEndedEventHandler();
 }
