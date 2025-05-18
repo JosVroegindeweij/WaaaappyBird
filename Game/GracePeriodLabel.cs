@@ -5,12 +5,13 @@ public partial class GracePeriodLabel : RichTextLabel
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Hide();
-	}
+		var player = GetNode<Player>("/root/Main/Game/Player");
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+		GD.Print("Found player? ", player != null);
+		player.GracePeriodStarted += OnGracePeriodStarted;
+		player.GracePeriodEnded += OnGracePeriodEnded;
+
+		Hide();
 	}
 
 	public void OnGracePeriodStarted()
