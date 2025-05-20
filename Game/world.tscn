@@ -95,4 +95,3 @@ script = ExtResource("8_5sxl1")
 
 [connection signal="GracePeriodEnded" from="Game/Player" to="Overlay/UIRoot/LabelContainer/GracePeriodLabel" method="OnGracePeriodEnded"]
 [connection signal="GracePeriodStarted" from="Game/Player" to="Overlay/UIRoot/LabelContainer/GracePeriodLabel" method="OnGracePeriodStarted"]
-[connection signal="timeout" from="Game/Player/GracePeriodTimer" to="Game/Player" method="OnGracePeriodEnded"]

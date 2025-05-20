@@ -8,9 +8,14 @@ public partial class Player : CharacterBody2D
 	private bool isInGracePeriod = false;
 	private double _verticalAcceleration = 0;
 
-	// Called when the node enters the scene tree for the first time.
+	private Timer gracePeriodTimer;
+
 	public override void _Ready()
 	{
+		var gameManager = GetNode<GameManager>("/root/Main/GameManager");
+		gameManager.Unpaused += OnUnpaused;
+		gracePeriodTimer = GetNode<Timer>("GracePeriodTimer");
+		gracePeriodTimer.Timeout += OnGracePeriodEnded;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,8 +51,7 @@ public partial class Player : CharacterBody2D
 	public void OnUnpaused()
 	{
 		isInGracePeriod = true;
-		var timer = GetNode<Timer>("GracePeriodTimer");
-		timer.Start();
+		gracePeriodTimer.Start();
 
 		EmitSignal(SignalName.GracePeriodStarted);
 	}

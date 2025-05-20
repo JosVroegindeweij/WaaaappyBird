@@ -7,7 +7,6 @@ public partial class GracePeriodLabel : RichTextLabel
 	{
 		var player = GetNode<Player>("/root/Main/Game/Player");
 
-		GD.Print("Found player? ", player != null);
 		player.GracePeriodStarted += OnGracePeriodStarted;
 		player.GracePeriodEnded += OnGracePeriodEnded;
 
