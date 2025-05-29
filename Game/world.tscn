@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmpu52l3qjsj1"]
+[gd_scene load_steps=12 format=3 uid="uid://cmpu52l3qjsj1"]
 
 [ext_resource type="PackedScene" uid="uid://jfsy0qglhg5h" path="res://plwaaayer.tscn" id="1_6ogx2"]
+[ext_resource type="Script" path="res://Game/Game.cs" id="1_groi5"]
 [ext_resource type="Texture2D" uid="uid://d2e07un7n5m5p" path="res://Game/world-background.png" id="2_ghcmh"]
 [ext_resource type="Script" path="res://Game/Player.cs" id="2_pbbcb"]
+[ext_resource type="PackedScene" uid="uid://bdmrxlus30rkf" path="res://Game/screen_edge.tscn" id="3_83332"]
 [ext_resource type="Script" path="res://Game/PauseScreen.cs" id="4_3whv8"]
 [ext_resource type="Theme" uid="uid://iq0uj7kds3s" path="res://Game/SharedLabelTheme.tres" id="4_uxty1"]
 [ext_resource type="Script" path="res://Game/GracePeriodLabel.cs" id="6_qp45g"]
@@ -17,6 +19,7 @@ process_mode = 3
 [node name="Game" type="Node2D" parent="."]
 process_mode = 1
 z_index = 1
+script = ExtResource("1_groi5")
 
 [node name="Player" parent="Game" instance=ExtResource("1_6ogx2")]
 z_index = 8
@@ -28,6 +31,8 @@ script = ExtResource("2_pbbcb")
 [node name="GracePeriodTimer" type="Timer" parent="Game/Player"]
 wait_time = 1.5
 one_shot = true
+
+[node name="TopScreenEdge" parent="Game" instance=ExtResource("3_83332")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 1

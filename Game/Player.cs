@@ -16,6 +16,9 @@ public partial class Player : CharacterBody2D
 		gameManager.Unpaused += OnUnpaused;
 		gracePeriodTimer = GetNode<Timer>("GracePeriodTimer");
 		gracePeriodTimer.Timeout += OnGracePeriodEnded;
+
+		var playerCollisionArea = GetNode<Area2D>("Hitbox");
+		playerCollisionArea.BodyEntered += OnArea2DBodyEntered;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -61,6 +64,14 @@ public partial class Player : CharacterBody2D
 		isInGracePeriod = false;
 
 		EmitSignal(SignalName.GracePeriodEnded);
+	}
+
+	private void OnArea2DBodyEntered(Node2D body)
+	{
+		if (body.IsInGroup("ScreenEdges"))
+		{
+			GD.Print("Died, unlucky");
+		}
 	}
 
 	[Signal]
