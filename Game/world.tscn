@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cmpu52l3qjsj1"]
+[gd_scene load_steps=13 format=3 uid="uid://cmpu52l3qjsj1"]
 
 [ext_resource type="PackedScene" uid="uid://jfsy0qglhg5h" path="res://plwaaayer.tscn" id="1_6ogx2"]
 [ext_resource type="Script" path="res://Game/Game.cs" id="1_groi5"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Game/GracePeriodLabel.cs" id="6_qp45g"]
 [ext_resource type="Script" path="res://Game/GameManager.cs" id="8_5sxl1"]
 [ext_resource type="Script" path="res://Game/InputHandler.cs" id="8_cr5uv"]
+[ext_resource type="Script" path="res://Game/GameOverLabel.cs" id="9_w4xjq"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_45gde"]
 
@@ -92,11 +93,16 @@ bbcode_enabled = true
 text = "[center]Press any key to start/continue[/center]"
 script = ExtResource("4_3whv8")
 
+[node name="GameOverLabel" type="RichTextLabel" parent="Overlay/UIRoot/LabelContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("4_uxty1")
+bbcode_enabled = true
+text = "[center]Game over! Keep practicing[/center]"
+script = ExtResource("9_w4xjq")
+
 [node name="InputHandler" type="Node" parent="."]
 script = ExtResource("8_cr5uv")
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("8_5sxl1")
-
-[connection signal="GracePeriodEnded" from="Game/Player" to="Overlay/UIRoot/LabelContainer/GracePeriodLabel" method="OnGracePeriodEnded"]
-[connection signal="GracePeriodStarted" from="Game/Player" to="Overlay/UIRoot/LabelContainer/GracePeriodLabel" method="OnGracePeriodStarted"]
