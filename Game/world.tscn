@@ -35,6 +35,8 @@ one_shot = true
 
 [node name="TopScreenEdge" parent="Game" instance=ExtResource("3_83332")]
 
+[node name="BottomScreenEdge" parent="Game" instance=ExtResource("3_83332")]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 1
 layer = -1
