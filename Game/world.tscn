@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cmpu52l3qjsj1"]
 
-[ext_resource type="PackedScene" uid="uid://jfsy0qglhg5h" path="res://plwaaayer.tscn" id="1_6ogx2"]
+[ext_resource type="PackedScene" path="res://Game/plwaaayer.tscn" id="1_6ogx2"]
 [ext_resource type="Script" path="res://Game/Game.cs" id="1_groi5"]
 [ext_resource type="Texture2D" uid="uid://d2e07un7n5m5p" path="res://Game/world-background.png" id="2_ghcmh"]
 [ext_resource type="Script" path="res://Game/Player.cs" id="2_pbbcb"]
@@ -28,10 +28,6 @@ position = Vector2(60, 300)
 scale = Vector2(0.5, 0.5)
 motion_mode = 1
 script = ExtResource("2_pbbcb")
-
-[node name="GracePeriodTimer" type="Timer" parent="Game/Player"]
-wait_time = 1.5
-one_shot = true
 
 [node name="TopScreenEdge" parent="Game" instance=ExtResource("3_83332")]
 
@@ -108,3 +104,7 @@ script = ExtResource("8_cr5uv")
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("8_5sxl1")
+
+[node name="GracePeriodTimer" type="Timer" parent="GameManager"]
+wait_time = 1.5
+one_shot = true

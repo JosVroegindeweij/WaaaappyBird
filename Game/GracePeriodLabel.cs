@@ -5,10 +5,10 @@ public partial class GracePeriodLabel : RichTextLabel
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		var player = GetNode<Player>("/root/Main/Game/Player");
+		var gameManager = GetNode<GameManager>("/root/Main/GameManager");
 
-		player.GracePeriodStarted += OnGracePeriodStarted;
-		player.GracePeriodEnded += OnGracePeriodEnded;
+		gameManager.GracePeriodStarted += OnGracePeriodStarted;
+		gameManager.GracePeriodEnded += OnGracePeriodEnded;
 
 		Hide();
 	}

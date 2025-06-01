@@ -6,6 +6,9 @@ public partial class GameManager : Node
 
 	private bool isPaused;
 	private bool isGameOver;
+	private bool isInGracePeriod = false;
+
+	private Timer gracePeriodTimer;
 
 	public override void _Ready()
 	{
@@ -18,6 +21,9 @@ public partial class GameManager : Node
 
 		var player = GetNode<Player>("/root/Main/Game/Player");
 		player.CollidedWithScreenEdge += OnCollidedWithScreenEdge;
+
+		gracePeriodTimer = GetNode<Timer>("GracePeriodTimer");
+		gracePeriodTimer.Timeout += OnGracePeriodTimerTimeout;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,10 +34,17 @@ public partial class GameManager : Node
 
 	private void OnPausePressed()
 	{
-		if (isPaused || isGameOver) return;
-		isPaused = true;
-		GetTree().SetDeferred("paused", true);
-		EmitSignal(SignalName.Paused);
+		if (!isPaused && !isGameOver)
+		{
+			if (isInGracePeriod)
+			{
+				gracePeriodTimer.Stop();
+				EndGracePeriod();
+			}
+			isPaused = true;
+			GetTree().SetDeferred("paused", true);
+			EmitSignal(SignalName.Paused);
+		}
 	}
 
 	private void OnUnpausePressed()
@@ -41,13 +54,33 @@ public partial class GameManager : Node
 			isGameOver = false;
 			GetTree().SetDeferred("paused", false);
 			EmitSignal(SignalName.Restarted);
+			StartGracePeriod();
 		}
 		else if (isPaused)
 		{
 			isPaused = false;
 			GetTree().SetDeferred("paused", false);
 			EmitSignal(SignalName.Unpaused);
+			StartGracePeriod();
 		}
+	}
+
+	private void OnGracePeriodTimerTimeout()
+	{
+		EndGracePeriod();
+	}
+
+	private void EndGracePeriod()
+	{
+		isInGracePeriod = false;
+		EmitSignal(SignalName.GracePeriodEnded);
+	}
+
+	private void StartGracePeriod()
+	{
+		isInGracePeriod = true;
+		gracePeriodTimer.Start();
+		EmitSignal(SignalName.GracePeriodStarted);
 	}
 
 	private void OnCollidedWithScreenEdge()
@@ -69,4 +102,10 @@ public partial class GameManager : Node
 
 	[Signal]
 	public delegate void GameOverEventHandler();
+
+	[Signal]
+	public delegate void GracePeriodStartedEventHandler();
+
+	[Signal]
+	public delegate void GracePeriodEndedEventHandler();
 }

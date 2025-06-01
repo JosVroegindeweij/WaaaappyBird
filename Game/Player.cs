@@ -10,19 +10,15 @@ public partial class Player : CharacterBody2D
 	private bool isInGracePeriod = false;
 	private double verticalAcceleration;
 
-	private Timer gracePeriodTimer;
-
 	public override void _Ready()
 	{
 		initialPosition = new Vector2(Position.X, Position.Y);
 		verticalAcceleration = initialVerticalAcceleration;
 
 		var gameManager = GetNode<GameManager>("/root/Main/GameManager");
-		gameManager.Paused += OnPaused;
-		gameManager.Unpaused += OnUnpaused;
 		gameManager.Restarted += OnRestarted;
-		gracePeriodTimer = GetNode<Timer>("GracePeriodTimer");
-		gracePeriodTimer.Timeout += OnGracePeriodEnded;
+		gameManager.GracePeriodStarted += OnGracePeriodStarted;
+		gameManager.GracePeriodEnded += OnGracePeriodEnded;
 
 		var playerCollisionArea = GetNode<Area2D>("Hitbox");
 		playerCollisionArea.BodyEntered += OnArea2DBodyEntered;
@@ -58,38 +54,20 @@ public partial class Player : CharacterBody2D
 		Position += new Vector2(0, (float)verticalAcceleration);
 	}
 
-	private void OnPaused()
-	{
-		// Cancel in-progress grace period
-		if (!isInGracePeriod) return;
-		EmitSignal(SignalName.GracePeriodEnded);
-		gracePeriodTimer.Stop();
-
-		isInGracePeriod = false;
-
-	}
-
-	private void OnUnpaused()
-	{
-		isInGracePeriod = true;
-		gracePeriodTimer.Start();
-
-		EmitSignal(SignalName.GracePeriodStarted);
-	}
-
 	private void OnRestarted()
 	{
 		Position = new Vector2(initialPosition.X, initialPosition.Y);
 		verticalAcceleration = initialVerticalAcceleration;
+	}
 
-		OnUnpaused();
+	private void OnGracePeriodStarted()
+	{
+		isInGracePeriod = true;
 	}
 
 	private void OnGracePeriodEnded()
 	{
 		isInGracePeriod = false;
-
-		EmitSignal(SignalName.GracePeriodEnded);
 	}
 
 	private void OnArea2DBodyEntered(Node2D body)
@@ -102,10 +80,4 @@ public partial class Player : CharacterBody2D
 
 	[Signal]
 	public delegate void CollidedWithScreenEdgeEventHandler();
-
-	[Signal]
-	public delegate void GracePeriodStartedEventHandler();
-
-	[Signal]
-	public delegate void GracePeriodEndedEventHandler();
 }
