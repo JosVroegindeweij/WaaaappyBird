@@ -28,6 +28,8 @@ project/assembly_name="Waaappy bird"
 [global_group]
 
 ScreenEdges=""
+Obstacles="Obstacles that kill the player on impact"
+ObstacleContainers=""
 
 [input]
 

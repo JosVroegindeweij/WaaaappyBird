@@ -29,12 +29,16 @@ scale = Vector2(0.5, 0.5)
 motion_mode = 1
 script = ExtResource("2_pbbcb")
 
+[node name="Obstacles" type="Node2D" parent="Game"]
+process_mode = 1
 
 [node name="ScreenEdges" type="Node2D" parent="Game"]
 
 [node name="TopScreenEdge" parent="Game/ScreenEdges" instance=ExtResource("3_83332")]
+collision_mask = 0
 
 [node name="BottomScreenEdge" parent="Game/ScreenEdges" instance=ExtResource("3_83332")]
+collision_mask = 0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 1

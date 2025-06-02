@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class Player : CharacterBody2D
@@ -22,9 +23,9 @@ public partial class Player : CharacterBody2D
 
 		var playerCollisionArea = GetNode<Area2D>("Hitbox");
 		playerCollisionArea.BodyEntered += OnArea2DBodyEntered;
+		playerCollisionArea.AreaShapeEntered += OnArea2DAreaShapeEntered;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		if (isInGracePeriod)
@@ -78,6 +79,17 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
+	private void OnArea2DAreaShapeEntered(Rid areaRid, Area2D area, long areaShapeIndex, long localShapeIndex)
+	{
+		if (area.IsInGroup("Obstacles"))
+		{
+			EmitSignal(SignalName.CollidedWithObstacle);
+		}
+	}
+
 	[Signal]
 	public delegate void CollidedWithScreenEdgeEventHandler();
+
+	[Signal]
+	public delegate void CollidedWithObstacleEventHandler();
 }
