@@ -6,7 +6,7 @@ public partial class Player : CharacterBody2D
 	private Vector2 initialPosition;
 	private double initialVerticalAcceleration = 0;
 	private const float GRAVITY = 9.8f;
-	private const double JUMP_VERTICAL_ACCELERATION = -2.5;
+	private const double JUMP_VERTICAL_ACCELERATION = -6;
 
 	private bool isInGracePeriod = false;
 	private double verticalAcceleration;
@@ -26,7 +26,7 @@ public partial class Player : CharacterBody2D
 		playerCollisionArea.AreaShapeEntered += OnArea2DAreaShapeEntered;
 	}
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		if (isInGracePeriod)
 		{
@@ -39,7 +39,7 @@ public partial class Player : CharacterBody2D
 			Jump();
 		}
 
-		Fall();
+		Fall(delta);
 	}
 
 	private void Jump()
@@ -47,9 +47,9 @@ public partial class Player : CharacterBody2D
 		verticalAcceleration = JUMP_VERTICAL_ACCELERATION;
 	}
 
-	private void Fall()
+	private void Fall(double delta)
 	{
-		var fallingAcceleration = 0.003f * GRAVITY;
+		var fallingAcceleration = delta * GRAVITY;
 		verticalAcceleration += fallingAcceleration;
 
 		Position += new Vector2(0, (float)verticalAcceleration);

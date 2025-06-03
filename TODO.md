@@ -12,9 +12,6 @@ When dying, let player fall through the ground.
 ## Figure out why GameMager:_PhysicsProcess is being called when the game is paused
 Weird stuff.
 
-## Implement player physics in Player:_PhysicsProcess
-Player physics are currently implemented in _Process.
-
 ## Implement rotation for player model
 Player sprite is currently always looking straight right. It would be cool if it rotates (looking at the place it will be going).
 
