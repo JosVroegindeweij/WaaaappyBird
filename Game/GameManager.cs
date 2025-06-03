@@ -39,8 +39,7 @@ public partial class GameManager : Node
 	{
 		Vector2 screenSize = GetViewport().GetVisibleRect().Size;
 
-		if (!isPaused && !isGameOver && !isInGracePeriod)
-		// TODO find out why this is happening when paused
+		if (!isInGracePeriod)
 		{
 			if (obstacles.Count == 0 || (screenSize.X - obstacles.Last.Value.Position.X) > screenSize.X / 2)
 			{

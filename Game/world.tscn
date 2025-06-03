@@ -110,6 +110,7 @@ script = ExtResource("9_w4xjq")
 script = ExtResource("8_cr5uv")
 
 [node name="GameManager" type="Node" parent="."]
+process_mode = 1
 script = ExtResource("8_5sxl1")
 
 [node name="GracePeriodTimer" type="Timer" parent="GameManager"]
