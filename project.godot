@@ -13,7 +13,7 @@ config_version=5
 config/name="Waaappy bird"
 run/main_scene="res://Game/world.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://Game/Elements/Player/waaa.png"
 
 [display]
 
