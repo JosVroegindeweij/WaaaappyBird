@@ -55,16 +55,32 @@ public partial class GameManager : Node
 	private void CreateObstacle()
 	{
 		Vector2 screenSize = GetViewport().GetVisibleRect().Size;
+		var random = new Random();
 
 		var obstacle = obstacleScene.Instantiate<ObstacleContainer>();
 
-		var random = new Random();
-		var randomDeviation = (float)random.NextDouble() * 0.4f;
+		var minimalObstacleSize = 40; // Minimum size of the obstacle (in pixels). This is because the visuals of the obstacle are not scaled down to fit smaller sizes.
+
+		var bottomLimit = (int)Math.Round(0.1 * screenSize.Y); // Minimum gap offset from the bottom of the screen
+		var topLimit = (int)Math.Round(0.9f * screenSize.Y); // Maximum gap offset from the bottom of the screen
+
+		var width = 0.2f * screenSize.X; // Width of the obstacle container
+		var height = screenSize.Y; // Height of the obstacle container
+
+		var rightOfScreen = screenSize.X; // Right edge of the screen
+		var topOfScreen = 0; // Top edge of the screen
+
+		var gapSize = (int)Math.Round(0.3f * screenSize.Y); // Size of the gap between obstacles
+		var halfGapSize = (int)(0.5 * gapSize); // Half of the gap size
+
+		var gapMiddle = random.NextInt64(bottomLimit + minimalObstacleSize + halfGapSize, topLimit - minimalObstacleSize - halfGapSize);
+		var gapOffset = gapMiddle - halfGapSize; // Offset of the gap from the top of the screen (also size of top obstacle)
+
 		obstacle.Setup(
-			position: new Vector2(screenSize.X, 0),
-			size: new Vector2(0.2f * screenSize.X, screenSize.Y),
-			gapSize: 0.3f * screenSize.Y,
-			gapOffset: (randomDeviation + 0.15f) * screenSize.Y
+			position: new Vector2(rightOfScreen, topOfScreen),
+			size: new Vector2(width, height),
+			gapSize: gapSize,
+			gapOffset: gapOffset
 		);
 		obstacles.AddLast(obstacle);
 		obstacleContainer.AddChild(obstacle);

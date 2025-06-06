@@ -18,11 +18,15 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_6ixrm")
 debug_color = Color(0, 0, 1, 1)
 
+[node name="VisualHolder" type="Node2D" parent="TopObstacle"]
+
 [node name="BottomObstacle" type="Area2D" parent="." groups=["Obstacles"]]
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomObstacle"]
 shape = SubResource("RectangleShape2D_evcer")
 debug_color = Color(0, 1, 0, 1)
+
+[node name="VisualHolder" type="Node2D" parent="BottomObstacle"]
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

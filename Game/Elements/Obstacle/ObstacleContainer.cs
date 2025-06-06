@@ -11,6 +11,19 @@ public partial class ObstacleContainer : Node2D
 
 	public void Setup(Vector2 position, Vector2 size, float gapSize, float gapOffset)
 	{
+		// Setup actual obstacles
+		SetupObstacles(position, size, gapSize, gapOffset);
+
+		// Setup notifier to detect when the obstacles are off-screen
+		var onScreenNotifier = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
+		onScreenNotifier.Position = new Vector2(size.X, 0);
+
+		// Setup sprites of obstacles
+
+	}
+
+	private void SetupObstacles(Vector2 position, Vector2 size, float gapSize, float gapOffset)
+	{
 		Position = position;
 		// Position of RectangleShape2D is the middle of the rectangle
 		var middleWidth = size.X / 2f;
@@ -30,9 +43,6 @@ public partial class ObstacleContainer : Node2D
 			topObstacle.Position = new Vector2(middleWidth, topMiddleHeight);
 			topShape.Size = new Vector2(size.X, gapOffset);
 		}
-
-		var onScreenNotifier = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
-		onScreenNotifier.Position = new Vector2(size.X, 0);
 	}
 
 	public void MoveLeft(float delta)
