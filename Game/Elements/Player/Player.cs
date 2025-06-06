@@ -9,6 +9,7 @@ public partial class Player : CharacterBody2D
 	private const double JUMP_VERTICAL_ACCELERATION = -6;
 
 	private bool isInGracePeriod = false;
+	private bool isHandlingInput = true;
 	private double verticalAcceleration;
 
 	public override void _Ready()
@@ -17,6 +18,7 @@ public partial class Player : CharacterBody2D
 		verticalAcceleration = initialVerticalAcceleration;
 
 		var gameManager = GetNode<GameManager>("/root/Main/GameManager");
+		gameManager.GameOver += OnGameOver;
 		gameManager.Restarted += OnRestarted;
 		gameManager.GracePeriodStarted += OnGracePeriodStarted;
 		gameManager.GracePeriodEnded += OnGracePeriodEnded;
@@ -34,7 +36,7 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		if (Input.IsActionJustPressed("jump"))
+		if (isHandlingInput && Input.IsActionJustPressed("jump"))
 		{
 			Jump();
 		}
@@ -55,8 +57,14 @@ public partial class Player : CharacterBody2D
 		Position += new Vector2(0, (float)verticalAcceleration);
 	}
 
+	private void OnGameOver()
+	{
+		isHandlingInput = false;
+	}
+
 	private void OnRestarted()
 	{
+		isHandlingInput = true;
 		Position = new Vector2(initialPosition.X, initialPosition.Y);
 		verticalAcceleration = initialVerticalAcceleration;
 	}

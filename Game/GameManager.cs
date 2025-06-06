@@ -48,7 +48,10 @@ public partial class GameManager : Node
 				CreateObstacle();
 			}
 
-			GetTree().CallGroup("ObstacleContainers", "MoveLeft", (float)delta);
+			if (!isGameOver)
+			{
+				GetTree().CallGroup("ObstacleContainers", "MoveLeft", (float)delta);
+			}
 		}
 	}
 
@@ -121,7 +124,7 @@ public partial class GameManager : Node
 		if (isGameOver)
 		{
 			isGameOver = false;
-			GetTree().SetDeferred("paused", false);
+			ResetObstacles();
 			EmitSignal(SignalName.Restarted);
 			StartGracePeriod();
 		}
@@ -166,10 +169,7 @@ public partial class GameManager : Node
 	{
 		if (isGameOver || isPaused) return;
 		isGameOver = true;
-		GetTree().SetDeferred("paused", true);
 		EmitSignal(SignalName.GameOver);
-
-		// ResetObstacles();
 	}
 
 	[Signal]
