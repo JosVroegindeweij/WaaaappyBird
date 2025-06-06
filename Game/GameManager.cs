@@ -9,6 +9,7 @@ public partial class GameManager : Node
 	private bool isInGracePeriod = false;
 
 	private int score;
+	private int highScore;
 
 	private Timer gracePeriodTimer;
 
@@ -18,6 +19,8 @@ public partial class GameManager : Node
 
 	public override void _Ready()
 	{
+		TryLoadHighScore();
+
 		isPaused = true;
 		GetTree().Paused = true;
 
@@ -54,6 +57,26 @@ public partial class GameManager : Node
 			if (!isGameOver)
 			{
 				GetTree().CallGroup("ObstacleContainers", "MoveLeft", (float)delta);
+			}
+		}
+	}
+
+	private void TryLoadHighScore()
+	{
+		// Load the high score from a save file.
+		using var saveFile = FileAccess.Open("user://highscore.save", FileAccess.ModeFlags.Read);
+		if (saveFile != null)
+		{
+			var highScoreLine = saveFile.GetLine();
+			var json = new Json();
+			var parseResult = json.Parse(highScoreLine);
+			if (parseResult == Error.Ok)
+			{
+				var jsonData = (Godot.Collections.Dictionary<string, int>)json.Data;
+				if (jsonData != null && jsonData.ContainsKey("HighScore"))
+				{
+					highScore = jsonData["HighScore"];
+				}
 			}
 		}
 	}
@@ -128,6 +151,7 @@ public partial class GameManager : Node
 		{
 			isGameOver = false;
 			ResetObstacles();
+			score = 0;
 			EmitSignal(SignalName.Restarted);
 			StartGracePeriod();
 		}
@@ -170,16 +194,34 @@ public partial class GameManager : Node
 
 	private void OnScored()
 	{
-		if (isGameOver || isPaused) return;
+		if (isGameOver || isPaused || isInGracePeriod) return;
 		score++;
 		EmitSignal(SignalName.SetScore, score);
 	}
 
 	private void Die()
 	{
-		if (isGameOver || isPaused) return;
+		if (isGameOver || isPaused || isInGracePeriod) return;
 		isGameOver = true;
-		EmitSignal(SignalName.GameOver, score);
+		EmitSignal(SignalName.GameOver, score, highScore);
+
+		if (score > highScore)
+		{
+			highScore = score;
+			SaveHighScore();
+		}
+	}
+
+	private void SaveHighScore()
+	{
+		using var saveFile = FileAccess.Open("user://highscore.save", FileAccess.ModeFlags.Write);
+		var saveData = new Godot.Collections.Dictionary<string, int>
+		{
+			{ "HighScore", highScore }
+		};
+		var jsonString = Json.Stringify(saveData);
+		saveFile.StoreLine(jsonString);
+		saveFile.Close();
 	}
 
 	[Signal]
@@ -192,7 +234,7 @@ public partial class GameManager : Node
 	public delegate void RestartedEventHandler();
 
 	[Signal]
-	public delegate void GameOverEventHandler(int score);
+	public delegate void GameOverEventHandler(int score, int highScore);
 
 	[Signal]
 	public delegate void SetScoreEventHandler(int score);

@@ -58,7 +58,7 @@ public partial class Player : CharacterBody2D
 		Position += new Vector2(0, (float)verticalAcceleration);
 	}
 
-	private void OnGameOver(int _score)
+	private void OnGameOver(int _score, int _highScore)
 	{
 		isHandlingInput = false;
 	}
@@ -82,7 +82,7 @@ public partial class Player : CharacterBody2D
 
 	private void OnArea2DBodyEntered(Node2D body)
 	{
-		if (body.IsInGroup("ScreenEdges"))
+		if (body != null && body.IsInGroup("ScreenEdges"))
 		{
 			EmitSignal(SignalName.CollidedWithScreenEdge);
 		}
@@ -90,7 +90,7 @@ public partial class Player : CharacterBody2D
 
 	private void OnArea2DAreaShapeEntered(Rid areaRid, Area2D area, long areaShapeIndex, long localShapeIndex)
 	{
-		if (area.IsInGroup("Obstacles"))
+		if (area != null && area.IsInGroup("Obstacles"))
 		{
 			EmitSignal(SignalName.CollidedWithObstacle);
 		}
@@ -98,7 +98,7 @@ public partial class Player : CharacterBody2D
 
 	private void OnArea2DAreaShapeExited(Rid areaRid, Area2D area, long areaShapeIndex, long localShapeIndex)
 	{
-		if (area.IsInGroup("ScoringZones"))
+		if (area != null && area.IsInGroup("ScoringZones"))
 		{
 			EmitSignal(SignalName.Scored);
 		}

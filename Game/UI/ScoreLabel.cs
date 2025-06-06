@@ -34,9 +34,16 @@ public partial class ScoreLabel : RichTextLabel
 		Text = $"[center]{score}[/center]";
 	}
 
-	private void OnGameOver(int score)
+	private void OnGameOver(int score, int highScore)
 	{
-		Text = $"[center][color=red]{score}[/color][/center]";
+		if (highScore > score)
+		{
+			Text = $"[center][color=red]{score} (best: {highScore})[/color][/center]";
+		}
+		else
+		{
+			Text = $"[center][color=red]{score}!![/color][/center]";
+		}
 	}
 
 	private void OnGracePeriodEnded()
