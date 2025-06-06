@@ -9,4 +9,4 @@ script = ExtResource("1_3kq21")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_kc8tv")
-debug_color = Color(1, 0, 0, 1)
+debug_color = Color(0, 0, 0, 0)
