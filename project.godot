@@ -30,6 +30,7 @@ project/assembly_name="Waaappy bird"
 ScreenEdges=""
 Obstacles="Obstacles that kill the player on impact"
 ObstacleContainers=""
+ScoringZones=""
 
 [input]
 

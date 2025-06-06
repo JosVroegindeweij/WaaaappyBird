@@ -8,6 +8,8 @@ public partial class GameManager : Node
 	private bool isGameOver;
 	private bool isInGracePeriod = false;
 
+	private int score;
+
 	private Timer gracePeriodTimer;
 
 	private LinkedList<Node2D> obstacles = new();
@@ -26,6 +28,7 @@ public partial class GameManager : Node
 		var player = GetNode<Player>("/root/Main/Game/Player");
 		player.CollidedWithScreenEdge += OnCollidedWithScreenEdge;
 		player.CollidedWithObstacle += OnCollidedWithObstacle;
+		player.Scored += OnScored;
 
 		gracePeriodTimer = GetNode<Timer>("GracePeriodTimer");
 		gracePeriodTimer.Timeout += OnGracePeriodTimerTimeout;
@@ -165,11 +168,18 @@ public partial class GameManager : Node
 		Die();
 	}
 
+	private void OnScored()
+	{
+		if (isGameOver || isPaused) return;
+		score++;
+		EmitSignal(SignalName.SetScore, score);
+	}
+
 	private void Die()
 	{
 		if (isGameOver || isPaused) return;
 		isGameOver = true;
-		EmitSignal(SignalName.GameOver);
+		EmitSignal(SignalName.GameOver, score);
 	}
 
 	[Signal]
@@ -182,7 +192,10 @@ public partial class GameManager : Node
 	public delegate void RestartedEventHandler();
 
 	[Signal]
-	public delegate void GameOverEventHandler();
+	public delegate void GameOverEventHandler(int score);
+
+	[Signal]
+	public delegate void SetScoreEventHandler(int score);
 
 	[Signal]
 	public delegate void GracePeriodStartedEventHandler();

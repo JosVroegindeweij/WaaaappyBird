@@ -25,7 +25,8 @@ public partial class ObstacleContainer : Node2D
 		// Position of RectangleShape2D is the middle of the rectangle
 		var width = size.X;
 		var height = size.Y;
-		var middleWidth = size.X / 2f;
+		var middleWidth = width / 2f;
+		var middleHeight = height / 2f;
 		var topObstacleHeight = gapOffset;
 		var topMiddleHeight = topObstacleHeight / 2f;
 		var bottomObstacleHeight = height - topObstacleHeight - gapSize;
@@ -43,6 +44,14 @@ public partial class ObstacleContainer : Node2D
 		{
 			topObstacle.Position = new Vector2(middleWidth, topMiddleHeight);
 			topShape.Size = new Vector2(width, topObstacleHeight);
+		}
+
+		// Setup scoring zone
+		var scoringZone = GetNode<Area2D>("ScoringZone");
+		if (scoringZone.GetNode<CollisionShape2D>("CollisionShape2D").Shape is RectangleShape2D scoringZoneShape)
+		{
+			scoringZone.Position = new Vector2(middleWidth, middleHeight);
+			scoringZoneShape.Size = new Vector2(width, height);
 		}
 
 		var pipeTopHeight = 40;

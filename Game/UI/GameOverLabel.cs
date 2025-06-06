@@ -11,7 +11,7 @@ public partial class GameOverLabel : RichTextLabel
 		Hide();
 	}
 
-	public void OnGameOver()
+	public void OnGameOver(int _score)
 	{
 		Show();
 	}

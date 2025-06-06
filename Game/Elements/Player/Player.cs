@@ -26,6 +26,7 @@ public partial class Player : CharacterBody2D
 		var playerCollisionArea = GetNode<Area2D>("Hitbox");
 		playerCollisionArea.BodyEntered += OnArea2DBodyEntered;
 		playerCollisionArea.AreaShapeEntered += OnArea2DAreaShapeEntered;
+		playerCollisionArea.AreaShapeExited += OnArea2DAreaShapeExited;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -57,7 +58,7 @@ public partial class Player : CharacterBody2D
 		Position += new Vector2(0, (float)verticalAcceleration);
 	}
 
-	private void OnGameOver()
+	private void OnGameOver(int _score)
 	{
 		isHandlingInput = false;
 	}
@@ -95,9 +96,20 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
+	private void OnArea2DAreaShapeExited(Rid areaRid, Area2D area, long areaShapeIndex, long localShapeIndex)
+	{
+		if (area.IsInGroup("ScoringZones"))
+		{
+			EmitSignal(SignalName.Scored);
+		}
+	}
+
 	[Signal]
 	public delegate void CollidedWithScreenEdgeEventHandler();
 
 	[Signal]
 	public delegate void CollidedWithObstacleEventHandler();
+
+	[Signal]
+	public delegate void ScoredEventHandler();
 }
