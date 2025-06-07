@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://2on01f6x0aoq"]
+
+[ext_resource type="Script" path="res://Game/Elements/Obstacle/ObstacleContainer.cs" id="1_hs031"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ixrm"]
+resource_local_to_scene = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_evcer"]
+resource_local_to_scene = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_apajp"]
+resource_local_to_scene = true
+
+[node name="Obstacle" type="Node2D" groups=["ObstacleContainers"]]
+script = ExtResource("1_hs031")
+
+[node name="TopObstacle" type="Area2D" parent="." groups=["Obstacles"]]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopObstacle"]
+shape = SubResource("RectangleShape2D_6ixrm")
+debug_color = Color(0, 0, 0, 0)
+
+[node name="VisualHolder" type="Node2D" parent="TopObstacle"]
+
+[node name="BottomObstacle" type="Area2D" parent="." groups=["Obstacles"]]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomObstacle"]
+shape = SubResource("RectangleShape2D_evcer")
+debug_color = Color(0, 0, 0, 0)
+
+[node name="VisualHolder" type="Node2D" parent="BottomObstacle"]
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="ScoringZone" type="Area2D" parent="." groups=["ScoringZones"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoringZone"]
+shape = SubResource("RectangleShape2D_apajp")
+debug_color = Color(0, 0, 0, 0)

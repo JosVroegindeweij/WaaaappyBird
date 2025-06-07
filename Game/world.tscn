@@ -1,0 +1,136 @@
+[gd_scene load_steps=14 format=3 uid="uid://cmpu52l3qjsj1"]
+
+[ext_resource type="PackedScene" uid="uid://jfsy0qglhg5h" path="res://Game/Elements/Player/plwaaayer.tscn" id="1_6ogx2"]
+[ext_resource type="Script" path="res://Game/Game.cs" id="1_groi5"]
+[ext_resource type="Texture2D" uid="uid://d2e07un7n5m5p" path="res://Game/world-background.png" id="2_ghcmh"]
+[ext_resource type="Script" path="res://Game/Elements/Player/Player.cs" id="2_pbbcb"]
+[ext_resource type="PackedScene" uid="uid://bdmrxlus30rkf" path="res://Game/Elements/ScreenEdge/screen_edge.tscn" id="3_83332"]
+[ext_resource type="Script" path="res://Game/UI/PauseScreen.cs" id="4_3whv8"]
+[ext_resource type="Theme" uid="uid://iq0uj7kds3s" path="res://Game/UI/SharedLabelTheme.tres" id="4_uxty1"]
+[ext_resource type="Script" path="res://Game/UI/ScoreLabel.cs" id="6_440x0"]
+[ext_resource type="Script" path="res://Game/UI/GracePeriodLabel.cs" id="6_qp45g"]
+[ext_resource type="Script" path="res://Game/GameManager.cs" id="8_5sxl1"]
+[ext_resource type="Script" path="res://Game/InputHandler.cs" id="8_cr5uv"]
+[ext_resource type="Script" path="res://Game/UI/GameOverLabel.cs" id="9_w4xjq"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_45gde"]
+
+[node name="Main" type="Node2D"]
+process_mode = 3
+
+[node name="Game" type="Node2D" parent="."]
+process_mode = 1
+z_index = 1
+script = ExtResource("1_groi5")
+
+[node name="Player" parent="Game" instance=ExtResource("1_6ogx2")]
+z_index = 8
+position = Vector2(60, 300)
+scale = Vector2(0.5, 0.5)
+motion_mode = 1
+script = ExtResource("2_pbbcb")
+
+[node name="Obstacles" type="Node2D" parent="Game"]
+process_mode = 1
+
+[node name="ScreenEdges" type="Node2D" parent="Game"]
+
+[node name="TopScreenEdge" parent="Game/ScreenEdges" instance=ExtResource("3_83332")]
+collision_mask = 0
+
+[node name="BottomScreenEdge" parent="Game/ScreenEdges" instance=ExtResource("3_83332")]
+collision_mask = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 1
+layer = -1
+
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 4.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.997004, 0.997315)
+texture = SubResource("ImageTexture_45gde")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="World-background" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(263, 358)
+scale = Vector2(0.563021, 0.686574)
+texture = ExtResource("2_ghcmh")
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="UIRoot" type="Control" parent="Overlay"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreContainer" type="MarginContainer" parent="Overlay/UIRoot"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.05
+anchor_right = 0.9
+anchor_bottom = 0.2
+
+[node name="ScoreLabel" type="RichTextLabel" parent="Overlay/UIRoot/ScoreContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("4_uxty1")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "[center]0[/center]"
+script = ExtResource("6_440x0")
+
+[node name="LabelContainer" type="MarginContainer" parent="Overlay/UIRoot"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.25
+anchor_right = 0.9
+anchor_bottom = 0.5
+offset_right = 1.0
+
+[node name="GracePeriodLabel" type="RichTextLabel" parent="Overlay/UIRoot/LabelContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("4_uxty1")
+bbcode_enabled = true
+text = "[center]Get ready ...[/center]"
+script = ExtResource("6_qp45g")
+
+[node name="PauseMenuLabel" type="RichTextLabel" parent="Overlay/UIRoot/LabelContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("4_uxty1")
+bbcode_enabled = true
+text = "[center]Press any key to start/continue[/center]"
+script = ExtResource("4_3whv8")
+
+[node name="GameOverLabel" type="RichTextLabel" parent="Overlay/UIRoot/LabelContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("4_uxty1")
+bbcode_enabled = true
+text = "[center]Game over! Keep practicing[/center]"
+script = ExtResource("9_w4xjq")
+
+[node name="InputHandler" type="Node" parent="."]
+script = ExtResource("8_cr5uv")
+
+[node name="GameManager" type="Node" parent="."]
+process_mode = 1
+script = ExtResource("8_5sxl1")
+
+[node name="GracePeriodTimer" type="Timer" parent="GameManager"]
+wait_time = 1.5
+one_shot = true
