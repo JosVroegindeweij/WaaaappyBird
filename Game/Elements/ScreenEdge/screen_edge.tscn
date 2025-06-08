@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdmrxlus30rkf"]
 
-[ext_resource type="Script" path="res://Game/Elements/ScreenEdge/ScreenEdge.cs" id="1_3kq21"]
+[ext_resource type="Script" uid="uid://b0sb5pcp4hsst" path="res://Game/Elements/ScreenEdge/ScreenEdge.cs" id="1_3kq21"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kc8tv"]
 

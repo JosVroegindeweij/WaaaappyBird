@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://2on01f6x0aoq"]
 
-[ext_resource type="Script" path="res://Game/Elements/Obstacle/ObstacleContainer.cs" id="1_hs031"]
+[ext_resource type="Script" uid="uid://df1rmpi6v2k57" path="res://Game/Elements/Obstacle/ObstacleContainer.cs" id="1_hs031"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6ixrm"]
 resource_local_to_scene = true
